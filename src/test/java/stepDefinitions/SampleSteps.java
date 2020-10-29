@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -100,4 +101,32 @@ public class SampleSteps {
     public void iAmOnActionPage() {
         driver.get("https://kristinek.github.io/site/examples/actions");
     }
+
+    @Given("^I am on Enter a number page$")
+    public void iAmOnEnteraNumberPage() {
+        driver.get("https://kristinek.github.io/site/tasks/enter_a_number");
+    }
+
+    @When("^I enter number: \"([^\"]*)\"$")
+    public void iEnterNumber(String number) throws Throwable {
+        driver.findElement(By.id("numb")).sendKeys(String.valueOf(number));
+    }
+
+    @And("^I click Submit$")
+    public void iClickSubmit() throws Throwable {
+        driver.findElement(By.className("w3-btn")).click();}
+
+    @Then("^I see Error: \"([^\"]*)\"$")
+    public void iSeeError(String error) throws Throwable {
+        assertEquals(error, driver.findElement(By.id("ch1_error")).getText());
+    }
+
+    @Then("^I see result: \"([^\"]*)\"$")
+    public void iSeeResult(String Result) throws Throwable {
+        Alert alert = driver.switchTo().alert() ;
+        assertEquals(Result, alert.getText());
+        alert.accept();
+    }
+
 }
+
