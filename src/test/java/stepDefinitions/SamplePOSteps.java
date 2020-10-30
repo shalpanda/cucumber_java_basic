@@ -4,14 +4,12 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import pages_sample.*;
+import pages_sample.AgePage;
+import pages_sample.AgeSubmittedPage;
 
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
 
 public class SamplePOSteps {
     private WebDriver driver;
@@ -54,4 +52,8 @@ public class SamplePOSteps {
         agePage.enterName(valuesToEnter.get("name"));
         agePage.enterAge(valuesToEnter.get("age"));
     }
+
+
+
+
 }

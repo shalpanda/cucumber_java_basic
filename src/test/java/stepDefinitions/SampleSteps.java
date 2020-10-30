@@ -1,21 +1,17 @@
 package stepDefinitions;
 
-import cucumber.api.PendingException;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
 
-import javax.lang.model.element.Name;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
 
 public class SampleSteps {
     private WebDriver driver;
@@ -175,18 +171,94 @@ public class SampleSteps {
 
     @And("^I select Gender: \"([^\"]*)\"$")
     public void iSelectGender(String Gender) throws Throwable {
-//        List<WebElement> radioButtons = driver.findElements(By.cssSelector(".w3-check[type='radio']"));
 
-//        for (WebElement radioButton : radioButtons) {
-//            assertFalse(radioButton.isSelected()); // radio are NOT selected
-//            radioButton.click();
-//            assertTrue(radioButton.isSelected()); // radio are selected
-//        }
+        WebElement radioBtn1 = driver.findElement(By.cssSelector("#male"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].checked = true;", radioBtn1);
 
-        WebElement male = driver.findElement(By.id("male"));
-        assertFalse(male.isSelected());
-        male.click();
-        assertTrue(male.isSelected());
+    }
+
+    @And("^I select Status: \"([^\"]*)\"$")
+    public void iSelectStatus(String Status) throws Throwable {
+        Select dropdown = new Select(driver.findElement(By.id("status")));
+        dropdown.selectByVisibleText(Status);
+
+    }
+
+    @And("^I click Add$")
+    public void iClickAdd() {
+        driver.findElement(By.id("modal_button")).click();
+    }
+
+    @Then("^A new person is added\\.$")
+    public void aNewPersonIsAdded() {
+       assertEquals("Hazem",driver.findElement(By.xpath("//*[@id=\"person3\"]/div/span[1]")).getText());
+
+    }
+
+    @And("^I click pencil$")
+    public void iClickPencil()  {
+        driver.findElement(By.xpath(" //*[@id=\"person3\"]/span[2]/i")).click();
+    }
+
+    @And("^I change Status: \"([^\"]*)\"$")
+    public void iChangeStatus(String Status) throws Throwable {
+        Select dropdown = new Select(driver.findElement(By.id("status")));
+        dropdown.selectByVisibleText(Status);
+    }
+
+
+    @And("^I click Edit$")
+    public void iClickEdit() {
+        driver.findElement(By.xpath("/html[1]/body[1]/div[3]/div[1]/div[1]/div[1]/div[1]/button[1]]")).click();
+    }
+
+    @Then("^Status is changed from Intern to Employee\\.$")
+    public void statusIsChangedFromInternToEmployee() {
+        assertEquals("employee",driver.findElement(By.xpath("//*[@id=\"person3\"]/span[7]]")).getText());
+    }
+
+
+    @And("^I click Remove$")
+    public void iClickRemove() {
+        driver.findElement(By.xpath("//*[@id=\"person3\"]/span[1]")).click();
+    }
+
+
+    @Then("^Person is removed\\.$")
+    public void personIsRemoved() {
+        assertFalse(driver.findElements(By.id("person3")).size() > 0);
+    }
+
+    @And("^I click Reset$")
+    public void iClickReset() {
+        driver.findElement(By.xpath("//*[@id=\"addPersonBtn\"]")).click();
+    }
+
+
+    @And("^I click Clear$")
+    public void iClickClear() throws InterruptedException {
+        driver.findElement(By.xpath("/html/body/div[2]/div/button")).click();
+
+    }
+
+    @And("^I check Name$")
+    public void iCheckName() {
+        assertFalse(driver.findElements(By.id("name")).size() > 0);
+    }
+
+
+    @And("^I check Surname$")
+    public void iCheckSurname() throws InterruptedException{
+        assertFalse(driver.findElements(By.id("surname")).size() > 0);
+        Thread.sleep(10000);
+    }
+
+    @Then("^All Fields are cleared\\.$")
+    public void allFieldsAreCleared() {
+        assertEquals("",driver.findElement(By.id("name")).getText());
+        assertEquals("",driver.findElement(By.id("surname")).getText());
     }
 }
+
+
 
