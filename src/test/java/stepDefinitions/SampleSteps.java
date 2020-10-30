@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -9,14 +10,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import javax.lang.model.element.Name;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 public class SampleSteps {
     private WebDriver driver;
+//    private Object Name;
 
     public SampleSteps() {
         this.driver = Hooks.driver;
@@ -39,11 +42,11 @@ public class SampleSteps {
                 driver.findElement(By.cssSelector("p")).getText());
     }
 
-    @When("^I enter name: \"([^\"]*)\"$")
-    public void iEnterName(String name) throws Throwable {
-        driver.findElement(By.id("name")).clear();
-        driver.findElement(By.id("name")).sendKeys(name);
-    }
+//    @When("^I enter name: \"([^\"]*)\"$")
+//    public void iEnterName(String name) throws Throwable {
+//        driver.findElement(By.id("name")).clear();
+//        driver.findElement(By.id("name")).sendKeys(name);
+//    }
 
     @And("^I enter age: (\\d+)$")
     public void iEnterAge(int age) throws Throwable {
@@ -128,5 +131,62 @@ public class SampleSteps {
         alert.accept();
     }
 
+    @Given("^I am on List of People page$")
+    public void iAmOnListOfPeoplepage() throws Throwable {
+        driver.get("https://kristinek.github.io/site/tasks/list_of_people.html");
+    }
+
+    @When("^I click on Add Person$")
+    public void iClickOnAddPerson() throws Throwable {
+        driver.findElement(By.id("addPersonBtn")).click();
+
+    }
+
+    @And("^I enter Name: \"([^\"]*)\"$")
+    public void iEnterName(String Name) throws Throwable {
+        driver.findElement(By.id("name")).sendKeys(Name);
+    }
+
+    @And("^I enter Surname: \"([^\"]*)\"$")
+    public void iEnterSurname(String Surname) throws Throwable {
+        driver.findElement(By.id("surname")).sendKeys(Surname);
+    }
+
+
+    @And("^I enter Job: \"([^\"]*)\"$")
+    public void iEnterJob(String Job) throws Throwable {
+        driver.findElement(By.id("job")).sendKeys(Job);
+    }
+
+
+    @And("^I enter DoB: \"([^\"]*)\"$")
+    public void iEnterDoB(String DoB) throws Throwable {
+        driver.findElement(By.id("dob")).sendKeys(DoB);
+
+    }
+
+    @And("^I select Language: \"([^\"]*)\"$")
+    public void iEnterLanguage(String Language) throws Throwable {
+        WebElement English = driver.findElement(By.id("english"));
+        assertTrue(English.isSelected());
+
+    }
+
+
+    @And("^I select Gender: \"([^\"]*)\"$")
+    public void iSelectGender(String Gender) throws Throwable {
+//        List<WebElement> radioButtons = driver.findElements(By.cssSelector(".w3-check[type='radio']"));
+
+//        for (WebElement radioButton : radioButtons) {
+//            assertFalse(radioButton.isSelected()); // radio are NOT selected
+//            radioButton.click();
+//            assertTrue(radioButton.isSelected()); // radio are selected
+//        }
+
+        WebElement male = driver.findElement(By.id("male"));
+        assertFalse(male.isSelected());
+        male.click();
+        assertTrue(male.isSelected());
+    }
 }
 
